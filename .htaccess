@@ -1,0 +1,12 @@
+RewriteEngine On
+RewriteBase /pict/
+
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+
+RewriteCond %{SCRIPT_FILENAME}.php !-f
+RewriteRule ^([^\.]*)/?$ index.php [L]
+
+
+RedirectMatch 403 .git
