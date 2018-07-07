@@ -390,15 +390,19 @@ if ($q=="new"){
 
   } else {
 
-    $r=$db->query("UPDATE `pictPlayers` SET `GameID` = '{$game['NextGame']}',`Ready`='0' WHERE `SessionCookie` = '$s';");
+    // Check that the new game has not started yet.
+    $r=$db->query("SELECT * FROM `pict` WHERE `GameID`='{$game['NextGame']}' && `Round`='0'");
     if (!$r) die('Query Failed ['. __LINE__ .']');
 
+    if ($r->num_rows!=0) {
+      $r=$db->query("UPDATE `pictPlayers` SET `GameID` = '{$game['NextGame']}',`Ready`='0' WHERE `SessionCookie` = '$s';");
+      if (!$r) die('Query Failed ['. __LINE__ .']');
+    } else {
+      // nothing better to do, might as well kick them back to the homepage
+      setcookie("pict", "", 0, "/", ".mitxela.com", TRUE, TRUE);
+    }
+
   }
-
-
-
-// reset round to 0, all players to not ready
-
 
   header("Location: {$fullURL}game");
   die();
