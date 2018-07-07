@@ -735,7 +735,7 @@ if ($game['Round'] > 1+$game['NumPlayers']) {
     if (!$r) die('Query Failed ['. __LINE__ .']');
 
     $pad = (isset($_GET['show']) && preg_match('/^[0-9]+$/',$_GET['show']) && $_GET['show']>0 && $_GET['show']<=$game['NumPlayers'])?$_GET['show']
-          : $player['PlayerNum'];
+          : 1;
 
     $rounds=array();
     $round=0;
@@ -766,8 +766,8 @@ if ($game['GameMode']!='1') echo
   margin:1%;
 }
 div{padding:10px;margin:10px 0px;background:hsl(<?=$hue?>, 84%, 76%)}
-a[href=new]{background:#eee;text-decoration:none;color:	hsl(<?=$hue?>, 42%, 47%);font-family:sans-serif;font-weight:bold;border-radius:10px;padding:10px 30px;margin:10px;display:inline-block;}
-a[href=new]:hover{background:#fff;color:hsl(<?=$hue?>, 100%, 50%)}
+.b{background:#eee;text-decoration:none;color:	hsl(<?=$hue?>, 42%, 47%);font-family:sans-serif;font-weight:bold;border-radius:10px;padding:10px 30px;margin:10px;display:inline-block;}
+.b:hover{background:#fff;color:hsl(<?=$hue?>, 100%, 50%)}
 </style></head><body><h1>Results</h1>
 
 <div>Initial prompt: <b><?=$rounds[0][1]?></b></div><?
@@ -780,13 +780,19 @@ a[href=new]:hover{background:#fff;color:hsl(<?=$hue?>, 100%, 50%)}
       }
     }
 
-    echo "<div>See other results: ";
-    foreach ($allNames as $k=>$v) if($k && $k!=$pad){
-      if ($k==$player['PlayerNum']) echo " [<a href='game'>".htmlentities($v)."</a>] ";
-      else echo " [<a href='?show=$k#{$game['GameID']}'>".htmlentities($v)."</a>] ";
-    }
+//    echo "<div>See other results: ";
+//    foreach ($allNames as $k=>$v) if($k && $k!=$pad){
+//      if ($k==$player['PlayerNum']) echo " [<a href='game'>".htmlentities($v)."</a>] ";
+//      else echo " [<a href='?show=$k#{$game['GameID']}'>".htmlentities($v)."</a>] ";
+//    }
+    echo "<div>Rate this result: (not implemented yet)</div>";
 
-    echo "</div><a href=new>Play Again</a><br><br></body></html>";
+    if ($pad==$game['NumPlayers'])
+      echo "<a class=b href=new>Play Again</a>";
+    else
+      echo "<a class=b href='?show=".($pad+1)."'>Next Result &gt;&gt;</a>";
+
+    echo "<br><br></body></html>";
 
     die();
 }
