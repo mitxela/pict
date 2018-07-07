@@ -768,6 +768,7 @@ if ($game['GameMode']!='1') echo
 div{padding:10px;margin:10px 0px;background:hsl(<?=$hue?>, 84%, 76%)}
 .b{background:#eee;text-decoration:none;color:	hsl(<?=$hue?>, 42%, 47%);font-family:sans-serif;font-weight:bold;border-radius:10px;padding:10px 30px;margin:10px;display:inline-block;}
 .b:hover{background:#fff;color:hsl(<?=$hue?>, 100%, 50%)}
+b{display:block;font-size:x-large}
 </style></head><body><h1>Results</h1>
 
 <div>Initial prompt: <b><?=$rounds[0][1]?></b></div><?
