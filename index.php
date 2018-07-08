@@ -408,6 +408,15 @@ if ($q=="new"){
   die();
 }
 
+if ($q=="end") {
+  if ($game['Round']>0 && $game['Round'] <= 1+$game['NumPlayers']) {
+    $db->query("UPDATE `pict` SET `Round`='".(2+$game['NumPlayers'])."' WHERE `GameID`='{$game['GameID']}';")
+      or die('Query Failed ['. __LINE__ .']');
+  }
+  header("Location: {$fullURL}game");
+  die();
+}
+
 if ($q!="game") { //TODO: redirect a join game link
 
 
