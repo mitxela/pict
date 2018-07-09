@@ -16,6 +16,7 @@ canvas{background:url(tex_squares.jpg); touch-action:none;}
 #q{margin-right:5px;}
 #r{position:fixed;bottom:-30px;transition:bottom 1s;width:100%;text-align:center}
 #s{background:rgba(0,0,0,0.2); padding:8px;border-radius:10px 10px 0px 0px;}
+#s button{font-size:large;}
 #e{background: url(erase.png) center no-repeat;}
 
 .a1,.a2,.a3 {animation: pulsate 0.7s infinite;}
@@ -96,7 +97,7 @@ s.onmousedown=function(e){e.stopPropagation()};
 
 ['black','red','blue','green','yellow',0].forEach(function(i){
   var d = document.createElement('button');
-  d.innerHTML='&nbsp;'
+  d.innerHTML='&nbsp;&nbsp;'
   if (i)d.style.backgroundColor=i;
   else d.id='e';
   d.onclick=function(){window.brushcolor=i}
