@@ -106,7 +106,7 @@ s.onmousedown=function(e){e.stopPropagation()};
 
 touches=[];
 //lastTap={x:-1,y:-1,t:-1}
-document.ontouchstart=function(e){
+c.ontouchstart=function(e){
   e.preventDefault();
   var now=new Date().getTime();
   for (var i =e.changedTouches.length;i--;){
@@ -130,7 +130,7 @@ document.ontouchstart=function(e){
     touches[e.changedTouches[i].identifier]=t;
   }
 }
-document.ontouchmove=function(e){
+c.ontouchmove=function(e){
   e.preventDefault();
   for (var i=e.changedTouches.length;i--;){
      var t=touches[e.changedTouches[i].identifier];
