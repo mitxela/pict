@@ -95,7 +95,11 @@ if ($s && isSessionKey($s)) {
 
 
 
-//if substr($q) = archive, ...
+if (substr($q,0,7)=="archive") {
+  require("_archive.php");
+  die();
+}
+
 
 
 if (!$game) {
