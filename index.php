@@ -636,15 +636,22 @@ h3{font-family:sans-serif}
 fieldset{max-width:500px;margin:10px auto;box-sizing: border-box;border-radius:10px;}
 select{width:50%;float:right;}
 div{background:#fec;max-width:500px;margin:10px auto; padding:10px; border-radius:10px;box-sizing: border-box;}
+#qrcode img{margin:auto}
 </style>
 </head><body>
 
 Waiting for players.<p>
 <h3>Game ID: <?=$game['GameID'] ?></h3>
+
+<p id=qrcode></p>
+<script src=/other/qr/QRCode.js></script>
+<script>
+new QRCode(document.getElementById("qrcode"), {text:"<?=$fullURL.$game['GameID'] ?>", correctLevel:QRCode.CorrectLevel.L});
+</script>
+
 <div>
 Send this link to everyone you want to join: <a href=<?=$fullURL.$game['GameID'] ?>>mitxela.com<?=$URL.$game['GameID'] ?></a>
 </div><p>
-
 
 
 <table id=playerList></table>
