@@ -104,9 +104,10 @@ while ($row=$r->fetch_assoc()) {
   $allNames[$row['GameID']][$row['Artist']]=$row['ArtistName'];
 }
 
+$sortby='`NumPlayers` DESC';
+if ($_GET['sort'] == 'date') $sortby='`startTime` DESC';
 
-
-$r=$db->query("SELECT * FROM `pict` WHERE `Round`>(1+`NumPlayers`) AND `NumPlayers`>2 ORDER BY `NumPlayers` DESC ");
+$r=$db->query("SELECT * FROM `pict` WHERE `Round`>(1+`NumPlayers`) AND `NumPlayers`>2 ORDER BY $sortby");
 if (!$r) die('Query Failed ['. __LINE__ .']');
 
 echo $HTMLheaderCode;
@@ -120,7 +121,7 @@ echo $HTMLheaderCode;
 
 
 while ($row=$r->fetch_assoc()) {
-  echo "\n {$row['GameID']} {$row['startTime']} {$row['NumPlayers']}";
+  echo "\n {$row['GameID']}\t{$row['startTime']} {$row['NumPlayers']}\t";
 //  var_dump($allNames[$row['GameID']]);
   foreach ($allNames[$row['GameID']] as $k=>$v) echo " <a href=\"{$URL}archive/{$row['GameID']}?show=$k\">$v</a>";
 }
