@@ -72,8 +72,7 @@ b{display:block;font-size:x-large}
 
     echo "<div>See other results: ";
     foreach ($allNames as $k=>$v) if($k && $k!=$pad){
-      if ($k==$player['PlayerNum']) echo " [<a href='game'>".htmlentities($v)."</a>] ";
-      else echo " [<a href='?show=$k'>".htmlentities($v)."</a>] ";
+      echo " [<a href='?show=$k'>".htmlentities($v)."</a>] ";
     }
     echo "</div><a class=b href={$URL}archive>Back to Archive</a><br><br></body></html>";
 
