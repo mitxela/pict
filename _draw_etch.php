@@ -49,7 +49,7 @@ canvas{max-width:100vw;max-height:100vh;display:block;margin:auto; position:rela
 </head><body>
 <canvas id=c></canvas>
 <div id=o>
-<div id=p>Your Prompt: <b><?=htmlentities($prompt); ?></b>
+<div id=p>Your Prompt: <b><?=entitiesOut($prompt); ?></b>
 <div id=q></div>
 </div>
 </div>

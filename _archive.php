@@ -32,7 +32,7 @@ if (count($q) == 2) {
 
     while ($row = $r->fetch_assoc()) {
       if($row['Round']==$round && $row['Artist']==$track){
-        $rounds[]=array(htmlentities($row['ArtistName']), htmlentities($row['Description']));
+        $rounds[]=array(entitiesOut($row['ArtistName']), entitiesOut($row['Description']));
         $round++;
         $track = nextPlayer($track, $game['PlayOrder']);
       }
@@ -58,7 +58,7 @@ div{padding:10px;margin:10px 0px;background:hsl(<?=$hue?>, 84%, 76%)}
 .b{background:#eee;text-decoration:none;color:	hsl(<?=$hue?>, 42%, 47%);font-family:sans-serif;font-weight:bold;border-radius:10px;padding:10px 30px;margin:10px;display:inline-block;}
 .b:hover{background:#fff;color:hsl(<?=$hue?>, 100%, 50%)}
 b{display:block;font-size:x-large}
-</style></head><body><h1><?=$game['GameID']." / ".$allNames[$pad] ?></h1>
+</style></head><body><h1><?=$game['GameID']." / ".entitiesOut($allNames[$pad]) ?></h1>
 
 <div>Initial prompt: <b><?=$rounds[0][1]?></b></div><?
 
@@ -72,7 +72,7 @@ b{display:block;font-size:x-large}
 
     echo "<div>See other results: ";
     foreach ($allNames as $k=>$v) if($k && $k!=$pad){
-      echo " [<a href='?show=$k'>".htmlentities($v)."</a>] ";
+      echo " [<a href='?show=$k'>".entitiesOut($v)."</a>] ";
     }
     echo "</div><a class=b href={$URL}archive>Back to Archive</a><br><br></body></html>";
 

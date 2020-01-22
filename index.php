@@ -32,6 +32,24 @@ $gameModeList = array(
   "Etch-a-sketch"
 );
 
+$DB_UTF8MB4_SUPPORT=false; // Whether or not to store strings as html-escaped in the db
+
+if ($DB_UTF8MB4_SUPPORT){
+  function entitiesOut($str){
+    return htmlentities($str);
+  }
+  function entitiesIn($str){
+    return $str;
+  }
+} else {
+  function entitiesOut($str){
+    return $str;
+  }
+  function entitiesIn($str){
+    return mb_encode_numericentity(htmlentities($str),  array(0x10000, 0xFFFFFF, 0, 0xFFFFFFFF),  mb_internal_encoding(), true);
+  }
+}
+
 $q = explode('?',explode($URL,$_SERVER['REQUEST_URI'])[1])[0];
 
 require('db.php');
@@ -453,7 +471,7 @@ if (isset($_POST['username'])) {
 
   if (!preg_match('/[!-~]/',$_POST['username'])) $userError="Please use at least one printable ascii character!";
   else {
-    $username= escape($_POST['username']);
+    $username= escape(entitiesIn($_POST['username']));
 
     //check name not in use
     $r=$db->query("SELECT * FROM pictPlayers WHERE `GameID`='{$game['GameID']}' AND `Name`='$username'");
@@ -461,7 +479,7 @@ if (isset($_POST['username'])) {
     if ($r->num_rows ==0) {
       $r=$db->query("UPDATE `pictPlayers` SET `Name` = '$username' WHERE `SessionCookie` = '$s';");
       if (!$r) die('Query Failed ['. __LINE__ .']');
-      $player['Name'] = $_POST['username'];
+      $player['Name'] = entitiesIn($_POST['username']);
     } else $userError = "That name is already in use!";
   }
   // Fall through to choose name screen (dies) or on to round==0
@@ -569,7 +587,7 @@ if ($_GET['poll']) {
   $allP=array();
   $ready = 1;
   while ($row = $r->fetch_assoc()) {
-    $row['Name'] = htmlentities($row['Name']);
+    $row['Name'] = entitiesOut($row['Name']);
     if ($row['Ready']=='0') $ready=0;
     $allP[] = $row;
   }
@@ -608,7 +626,7 @@ if ($_GET['poll']) {
     $wList = chooseWords($numPlayers,$avoid);
     $wQuery=array();
 
-    for ($i=1;$i<=count($wList);$i++) {$wQuery[]="('{$game['GameID']}','0','$i','".escape($wList[$i-1])."')";}
+    for ($i=1;$i<=count($wList);$i++) {$wQuery[]="('{$game['GameID']}','0','$i','".escape(entitiesIn($wList[$i-1]))."')";}
 
     $r=$db->query("INSERT INTO `pictDesc` (`GameID`,`Round`,`Artist`,`Description`) VALUES ".implode(',',$wQuery));
     if (!$r) die('Query Failed ['. __LINE__ .']');
@@ -764,15 +782,15 @@ if ($game['Round'] > 1+$game['NumPlayers']) {
     $rounds=array();
     $round=0;
     $track = prevPlayer($pad, $game['PlayOrder']);
-    $allNames = array();
+    //$allNames = array();
 
     while ($row = $r->fetch_assoc()) {
       if($row['Round']==$round && $row['Artist']==$track){
-        $rounds[]=array(htmlentities($row['ArtistName']), htmlentities($row['Description']));
+        $rounds[]=array(entitiesOut($row['ArtistName']), entitiesOut($row['Description']));
         $round++;
         $track = nextPlayer($track, $game['PlayOrder']);
       }
-      $allNames[$row['Artist']]=$row['ArtistName'];
+      //$allNames[$row['Artist']]=$row['ArtistName'];
     }
 
     $hue = round(360*$pad/$game['NumPlayers']);
@@ -870,7 +888,7 @@ if ($_GET['wait']=='upload') {
 
   $waiting = array();
   while ($row = $r->fetch_row()) {
-    if (!in_array($row[0],$pUploaded)) $waiting[]=htmlentities($row[0]);
+    if (!in_array($row[0],$pUploaded)) $waiting[]=entitiesOut($row[0]);
   }
 
   if (count($waiting)>0) {
@@ -926,7 +944,7 @@ if ($_GET['wait']=='upload') {
   if ($_GET['description']) {
 
     $name = escape($player['Name']);
-    $desc = escape($_GET['description']);
+    $desc = escape(entitiesIn($_GET['description']));
 
     $r=$db->query("INSERT IGNORE INTO `pictDesc` (`GameID`,`Round`,`Artist`,`ArtistName`,`Description`) "
                  ."VALUES ('{$game['GameID']}', '{$game['Round']}', '{$player['PlayerNum']}', '$name', '$desc')");
@@ -955,7 +973,7 @@ if ($_GET['wait']=='upload') {
 
     $waiting = array();
     while ($row = $r->fetch_row()) {
-      if (!in_array($row[0],$pUploaded)) $waiting[]=htmlentities($row[0]);
+      if (!in_array($row[0],$pUploaded)) $waiting[]=entitiesOut($row[0]);
     }
 
     if (count($waiting)>0) {
@@ -1090,8 +1108,15 @@ function prevPlayer($me,$order){
 }
 
 function escape($str, $len=255){
-  global $db;
-  return $db->escape_string(substr($str,0,$len)); //mb_substr ?
+  global $db, $DB_UTF8MB4_SUPPORT;
+
+  if (!$DB_UTF8MB4_SUPPORT && strlen($str)>$len) {
+    do {
+      $s = mb_strcut($str,0,$len);
+    } while (preg_match('/&[^;]*$/',$s) && $len--);
+  }
+
+  return $db->escape_string(mb_strcut($str,0,$len));
 }
 
 function generateSessionKey() {
