@@ -557,7 +557,7 @@ if ($_GET['poll']) {
     }
   }
   //Prune other players
-  $r = $db->query("DELETE FROM `pictPlayers` WHERE `GameID`='{$game['GameID']}' AND NAME!='' AND UNIX_TIMESTAMP()-UNIX_TIMESTAMP(pollTime) > 10");
+  $r = $db->query("DELETE FROM `pictPlayers` WHERE `GameID`='{$game['GameID']}' AND UNIX_TIMESTAMP()-UNIX_TIMESTAMP(pollTime) > 30");
   if (!$r) die('Query Failed ['. __LINE__ .']');
 
 
