@@ -13,7 +13,7 @@ $HTMLheaderCodeNoScale='<!doctype html><html><head>
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">';
 
 //Potentially auto generate...
-$wordLists = array("wordList.txt"=>"Pictionary", "cah_whitecards.txt"=>"Cards Against Humanity");
+$wordLists = array("wordList.txt"=>"Pictionary", "nounsList.txt"=>"Tricky Nouns", "cah_whitecards.txt"=>"Cards Against Humanity");
 
 $countdownList = array(
   "30 Seconds",
