@@ -232,7 +232,7 @@ h1 {letter-spacing:2px; animation: fadeIn  3s; font-family: sans-serif;}
 <a href=host>Host game</a><p>
 <a href=join>Join game</a><p>
 </div>
-<a href=/>mitxela.com</a>
+<a href=http://mitxela.com/>mitxela.com</a>
 
 </body></html>
 <?
@@ -668,7 +668,7 @@ new QRCode(document.getElementById("qrcode"), {text:"<?=$fullURL.$game['GameID']
 </script>
 
 <div>
-Send this link to everyone you want to join: <a href=<?=$fullURL.$game['GameID'] ?>>mitxela.com<?=$URL.$game['GameID'] ?></a>
+Send this link to everyone you want to join: <a href=<?=$fullURL.$game['GameID'] ?>><?= $fullURL ?></a>
 </div><p>
 
 
@@ -847,7 +847,7 @@ if ($_GET['wait']=='description') die('{"reload":1}');
 
 if ($_GET['upload']) {
 
-  $path = '/home/public/mitxela.com'.$URL.'img/';
+  $path = '/tmp/';
   $fname = "G{$game['GameID']}_{$game['Round']}_{$player['PlayerNum']}.png";
 
 
@@ -1132,8 +1132,6 @@ function isSessionKey($k) {
 }
 
 function e404(){
-  $_SERVER['QUERY_STRING']='404';
-  require('/home/public/mitxela.com/error.php');
   die();
 }
 function bake($s){
