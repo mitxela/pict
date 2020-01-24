@@ -1,9 +1,10 @@
 RewriteEngine On
-RewriteBase /pict/
+RewriteBase /
 
-RewriteCond %{HTTP:X-Forwarded-Proto} !https
-RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+#RewriteCond %{HTTP:X-Forwarded-Proto} !https
+#RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+   php_value short_open_tag 1
 
 RewriteCond %{SCRIPT_FILENAME}.php !-f
 RewriteRule ^([^\.]*)/?$ index.php [L]
