@@ -9,21 +9,21 @@ SET time_zone = "+00:00";
 
 
 CREATE TABLE `pict` (
-  `GameID` int(11) NOT NULL DEFAULT 0,
+  `GameID` int(11) NOT NULL,
   `startTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `NumPlayers` int(11) NOT NULL DEFAULT 0,
-  `Round` int(11) NOT NULL DEFAULT 0,
+  `NumPlayers` int(11) NOT NULL,
+  `Round` int(11) NOT NULL,
   `PlayOrder` varchar(255) NOT NULL,
-  `NextGame` int(11) NOT NULL DEFAULT 0,
-  `Countdown` int(11) NOT NULL DEFAULT 0,
-  `WordList` int(11) NOT NULL DEFAULT 0,
-  `GameMode` int(11) NOT NULL DEFAULT 0
+  `NextGame` int(11) NOT NULL,
+  `Countdown` int(11) NOT NULL,
+  `WordList` int(11) NOT NULL,
+  `GameMode` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `pictDesc` (
-  `GameID` int(11) NOT NULL DEFAULT 0,
-  `Round` int(11) NOT NULL DEFAULT 0,
-  `Artist` int(11) NOT NULL DEFAULT 0,
+  `GameID` int(11) NOT NULL,
+  `Round` int(11) NOT NULL,
+  `Artist` int(11) NOT NULL,
   `ArtistName` varchar(255) NOT NULL,
   `Description` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -31,9 +31,9 @@ CREATE TABLE `pictDesc` (
 CREATE TABLE `pictPlayers` (
   `SessionCookie` char(32) NOT NULL,
   `pollTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `GameID` int(11) NOT NULL DEFAULT 0,
-  `PlayerNum` int(11) NOT NULL DEFAULT 0,
-  `Ready` tinyint(1) NOT NULL DEFAULT 0,
+  `GameID` int(11) NOT NULL,
+  `PlayerNum` int(11) NOT NULL,
+  `Ready` tinyint(1) NOT NULL,
   `Name` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
