@@ -847,7 +847,7 @@ if ($_GET['wait']=='description') die('{"reload":1}');
 
 if ($_GET['upload']) {
 
-  $path = '/tmp/';
+  $path = '/app/img/';
   $fname = "G{$game['GameID']}_{$game['Round']}_{$player['PlayerNum']}.png";
 
 
