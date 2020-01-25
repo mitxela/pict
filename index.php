@@ -1,6 +1,6 @@
 <?
 $URL = '/';
-$fullURL = 'http://localhost'.$URL;
+$fullURL = 'http://'.$_SERVER['HTTP_HOST'].$URL;
 
 $max_players = 88; // VARCHAR(255) for player order implies maximum of 88
 
@@ -668,7 +668,7 @@ new QRCode(document.getElementById("qrcode"), {text:"<?=$fullURL.$game['GameID']
 </script>
 
 <div>
-Send this link to everyone you want to join: <a href=<?=$fullURL.$game['GameID'] ?>><?= $fullURL ?></a>
+Send this link to everyone you want to join: <a href=<?=$fullURL.$game['GameID'] ?>><?= $fullURL.$game['GameID'] ?></a>
 </div><p>
 
 
@@ -1136,6 +1136,6 @@ function e404(){
 }
 function bake($s){
   //  setcookie("pict", $s, 0, "/", ".mitxela.com", TRUE, TRUE);
-  setcookie("pict", $s, 0, "/", "localhost");
+  setcookie("pict", $s, 0, "/", $_SERVER['HTTP_HOST']);
 }
 ?>
