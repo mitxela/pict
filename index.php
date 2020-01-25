@@ -662,7 +662,7 @@ Waiting for players.<p>
 <h3>Game ID: <?=$game['GameID'] ?></h3>
 
 <p id=qrcode></p>
-<script src=/other/qr/QRCode.js></script>
+<script src=QRCode.js></script>
 <script>
 new QRCode(document.getElementById("qrcode"), {text:"<?=$fullURL.$game['GameID'] ?>", correctLevel:QRCode.CorrectLevel.L});
 </script>
