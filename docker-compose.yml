@@ -4,11 +4,8 @@ services:
     image: mitxela/pict
     ports:
       - 80:80
-    environment:
-      #CREATE_MYSQL_USER: 'true'
-      MYSQL_USER_NAME: pict
-      MYSQL_USER_DB: pict
-      MYSQL_USER_PASS: pict
+
+    # Mount local source directory into image, to be able to work on it live.
     volumes:
      - type: bind
        source: ./src

@@ -19,14 +19,7 @@ mysql -uroot -e "GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION"
 
 mysql -uroot -e " GRANT ALL PRIVILEGES ON phpmyadmin.* TO  'pma'@'localhost' IDENTIFIED BY ''"
 
-CREATE_MYSQL_USER=false
-
-if [ -n "$CREATE_MYSQL_BASIC_USER_AND_DB" ] || \
-   [ -n "$MYSQL_USER_NAME" ] || \
-   [ -n "$MYSQL_USER_DB" ] || \
-   [ -n "$MYSQL_USER_PASS" ]; then
-      CREATE_MYSQL_USER=true
-fi
+CREATE_MYSQL_USER=true
 
 if [ "$CREATE_MYSQL_USER" = true ]; then
     _user=${MYSQL_USER_NAME:-pict}
