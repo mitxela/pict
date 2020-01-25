@@ -6,7 +6,7 @@ cp container/db.php src/db.php
 # Script to help remember the docker compose command from within src/
 cat > src/dev <<-EOFDEV
 	#!/bin/bash
-	docker-compose -f ${PWD}/docker-compose.yml "\$@"
+	docker-compose -f ${PWD}/container/docker-compose.yml "\$@"
 EOFDEV
 chmod +x src/dev
 

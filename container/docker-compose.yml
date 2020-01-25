@@ -8,5 +8,5 @@ services:
     # Mount local source directory into image, to be able to work on it live.
     volumes:
      - type: bind
-       source: ./src
+       source: ../src
        target: /app
