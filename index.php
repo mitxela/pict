@@ -604,10 +604,10 @@ if ($_GET['poll']) {
     $queryV=array();
     for ($i=1;$i<=$numPlayers;$i++) {
       $playOrder[]=$i;
-      $queryV[]="('{$allP[$i-1]['SessionCookie']}',$i)";
+      $queryV[]="('{$allP[$i-1]['SessionCookie']}',$i,'')";
     }
 
-    $r=$db->query("INSERT INTO pictPlayers (SessionCookie,PlayerNum) VALUES ".implode(',',$queryV)."ON DUPLICATE KEY UPDATE PlayerNum=VALUES(PlayerNum);");
+    $r=$db->query("INSERT INTO pictPlayers (SessionCookie,PlayerNum, Name) VALUES ".implode(',',$queryV)."ON DUPLICATE KEY UPDATE PlayerNum=VALUES(PlayerNum);");
     if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
 
     shuffle($playOrder);
