@@ -8,5 +8,6 @@ RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RewriteCond %{SCRIPT_FILENAME}.php !-f
 RewriteRule ^([^\.]*)/?$ index.php [L]
 
-
-RedirectMatch 403 .git
+RedirectMatch 404 /_
+RedirectMatch 404 \.example
+RedirectMatch 403 \.git

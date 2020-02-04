@@ -1,7 +1,5 @@
 <?
 if (!isset($URL)) {
-  $_SERVER['QUERY_STRING']='404';
-  require('/home/public/mitxela.com/error.php');
   die();
 }
 
