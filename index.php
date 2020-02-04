@@ -232,7 +232,7 @@ h1 {letter-spacing:2px; animation: fadeIn  3s; font-family: sans-serif;}
 <a href=host>Host game</a><p>
 <a href=join>Join game</a><p>
 </div>
-<a href=/>mitxela.com</a>
+<a href=https://mitxela.com/>mitxela.com</a>
 
 </body></html>
 <?
