@@ -1,6 +1,6 @@
 <?
-$URL = '/pict/';
-$fullURL = 'https://mitxela.com'.$URL;
+$URL = dirname($_SERVER['SCRIPT_NAME']).'/';
+$fullURL = 'http://'.$_SERVER['HTTP_HOST'].$URL;
 
 $max_players = 88; // VARCHAR(255) for player order implies maximum of 88
 
@@ -150,7 +150,7 @@ if (preg_match('/^[0-9]+$/',$q) && $q>1 && $q<0xFFFFFFFF) { // Request to Join G
 
 //Update NumPlayers and playorder in game row
 
-      setcookie("pict", $s, 0, "/", ".mitxela.com", TRUE, TRUE);
+      bake($s);
 
       header("Location: {$fullURL}game");
       die();
@@ -263,7 +263,7 @@ case "host":
   $r=$db->query("INSERT INTO pictPlayers (`SessionCookie`, `GameID`, `PlayerNum`, `Ready`, `Name`) VALUES ('$s', '$GameID', '1', '0', '');");
   if (!$r) die('Query Failed ['. __LINE__ .']');
 
-  setcookie("pict", $s, 0, "/", ".mitxela.com", TRUE, TRUE);
+  bake($s);
 
   header("Location: {$fullURL}game");
   die();
@@ -366,7 +366,7 @@ default: e404();
 if ($q=="quit"){
   //edit polltime to explicitly remove them from the game? --nah
 
-  setcookie("pict", "", 0, "/", ".mitxela.com", TRUE, TRUE);
+  bake("");
 
   // if they were trying to join another game, redirect
   if (isset($_SERVER["HTTP_REFERER"])) {
@@ -421,7 +421,7 @@ if ($q=="new"){
       if (!$r) die('Query Failed ['. __LINE__ .']');
     } else {
       // nothing better to do, might as well kick them back to the homepage
-      setcookie("pict", "", 0, "/", ".mitxela.com", TRUE, TRUE);
+      bake("");
     }
 
   }
@@ -543,7 +543,7 @@ if ($_GET['poll']) {
 
   /*// Prune ourselves if needed
   if (time() - strtotime($player['pollTime']) > 10) {
-    setcookie("pict", "", 0, "/", ".mitxela.com", TRUE, TRUE);
+    bake("");
     $r = $db->query("DELETE FROM `pictPlayers` WHERE `SessionCookie` = '$s'");
     die('{"reload":1}');
   }*/
@@ -668,7 +668,7 @@ new QRCode(document.getElementById("qrcode"), {text:"<?=$fullURL.$game['GameID']
 </script>
 
 <div>
-Send this link to everyone you want to join: <a href=<?=$fullURL.$game['GameID'] ?>>mitxela.com<?=$URL.$game['GameID'] ?></a>
+Send this link to everyone you want to join: <a href=<?=$fullURL.$game['GameID'] ?>><?= $fullURL.$game['GameID'] ?></a>
 </div><p>
 
 
@@ -847,7 +847,7 @@ if ($_GET['wait']=='description') die('{"reload":1}');
 
 if ($_GET['upload']) {
 
-  $path = '/home/public/mitxela.com'.$URL.'img/';
+  $path = dirname($_SERVER['SCRIPT_FILENAME']).'/img/';
   $fname = "G{$game['GameID']}_{$game['Round']}_{$player['PlayerNum']}.png";
 
 
@@ -1132,8 +1132,9 @@ function isSessionKey($k) {
 }
 
 function e404(){
-  $_SERVER['QUERY_STRING']='404';
-  require('/home/public/mitxela.com/error.php');
   die();
+}
+function bake($s){
+  setcookie("pict", $s, 0, "/", '.'.$_SERVER['HTTP_HOST'], TRUE, TRUE);
 }
 ?>
