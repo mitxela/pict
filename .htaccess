@@ -1,7 +1,8 @@
 RewriteEngine On
 
-#RewriteCond %{HTTP:X-Forwarded-Proto} !https
-#RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteCond %{ENV:PICT_NO_SSL} ^$
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 RewriteCond %{SCRIPT_FILENAME}.php !-f
 RewriteRule ^([^\.]*)/?$ index.php [L]
