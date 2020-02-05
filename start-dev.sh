@@ -1,5 +1,7 @@
 #!/bin/bash
 
+[[ -d src ]] || git worktree add src redo
+
 # Config to match container db's default credentials
 cp container/db.php src/db.php
 
