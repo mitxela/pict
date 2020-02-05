@@ -1,2 +1,8 @@
+# Configuration file
 db.php
+
+# Default storage location for submitted drawings
 img/*.png
+
+# Helper script placed by container wrapper
+dev
