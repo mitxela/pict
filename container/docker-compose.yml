@@ -5,6 +5,10 @@ services:
     ports:
       - 80:80
 
+    # Disable SSL for local usage
+    environment:
+      PICT_NO_SSL: yes_please_no_ssl_thanks
+
     # Mount local source directory into image, to be able to work on it live.
     volumes:
      - type: bind
