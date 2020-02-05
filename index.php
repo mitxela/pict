@@ -1,5 +1,6 @@
 <?
 $URL = dirname($_SERVER['SCRIPT_NAME']).'/';
+if ($URL == '//') $URL = '/';
 $fullURL = 'http://'.$_SERVER['HTTP_HOST'].$URL;
 
 $max_players = 88; // VARCHAR(255) for player order implies maximum of 88
