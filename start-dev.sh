@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 [[ -d src ]] || git worktree add src redo
 
