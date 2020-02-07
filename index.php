@@ -667,7 +667,7 @@ body{text-align:center;}
 table,td,th{border-collapse:collapse;padding:3px;margin:auto;}
 tr:nth-child(even){background:#f8f8f8}
 th,td{text-align:left}
-td:nth-child(2){text-align:center}
+td:nth-child(2){text-align:center; font-family:sans-serif}
 td:nth-child(1){width:100%}
 table{max-width:500px}
 h3{font-family:sans-serif}
