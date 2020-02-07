@@ -42,7 +42,8 @@ $gameModeList = array(
 
 $bannedAgents = array(
   "WhatsApp",
-  "facebookexternalhit"
+  "facebookexternalhit",
+  "Twitterbot"
 );
 
 $jsPollTime = getenv('JS_POLL_TIME') ?: 3000;
