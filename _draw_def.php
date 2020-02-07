@@ -172,7 +172,7 @@ function upload(){
   // set 'waiting for other players'
 
     poll();
-    window.setInterval(poll, 3000);
+    window.setInterval(poll, <?=$jsPollTime ?>);
 
   },bytes);
 

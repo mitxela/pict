@@ -33,6 +33,8 @@ $gameModeList = array(
   "Etch-a-sketch"
 );
 
+$jsPollTime = getenv('JS_POLL_TIME') ?: 3000;
+
 $DB_UTF8MB4_SUPPORT=false; // Whether or not to store strings as html-escaped in the db
 
 if ($DB_UTF8MB4_SUPPORT){
@@ -741,7 +743,7 @@ function request(o){options[o.id]=o.value;}
 
 
 poll();
-window.setInterval(poll, 3000);
+window.setInterval(poll, <?=$jsPollTime ?>);
 
 </script>
 
