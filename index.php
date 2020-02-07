@@ -35,6 +35,11 @@ $gameModeList = array(
   "Etch-a-sketch"
 );
 
+$bannedAgents = array(
+  "WhatsApp",
+  "facebookexternalhit"
+);
+
 $jsPollTime = getenv('JS_POLL_TIME') ?: 3000;
 
 $DB_UTF8MB4_SUPPORT=false; // Whether or not to store strings as html-escaped in the db
@@ -123,6 +128,10 @@ if (substr($q,0,7)=="archive") {
   die();
 }
 
+
+if (str_replace($bannedAgents, '', $_SERVER['HTTP_USER_AGENT']) !== $_SERVER['HTTP_USER_AGENT']) {
+  $q="";
+}
 
 
 if (!$game) {
