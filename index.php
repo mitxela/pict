@@ -3,6 +3,8 @@ $URL = dirname($_SERVER['SCRIPT_NAME']).'/';
 if ($URL == '//') $URL = '/';
 $fullURL = 'http://'.$_SERVER['HTTP_HOST'].$URL;
 
+$showErrors = false;
+
 $max_players = 88; // VARCHAR(255) for player order implies maximum of 88
 
 $HTMLheaderCode='<!doctype html><html><head>
@@ -145,11 +147,11 @@ if (preg_match('/^[0-9]+$/',$q) && $q>1 && $q<0xFFFFFFFF) { // Request to Join G
         $s=generateSessionKey();
         $r=$db->query("SELECT * FROM pictPlayers WHERE SessionCookie='$s'");
       } while ($r && $r->num_rows>0);
-      if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+      if (!$r) errorHandler(__LINE__);
 
       $playerNum = $game['NumPlayers']+1; // Recalculate later anyway, in case people leave during setup
       $r=$db->query("INSERT INTO pictPlayers (`SessionCookie`, `GameID`, `PlayerNum`, `Ready`, `Name`) VALUES ('$s', '$q', '$playerNum', '0', '');");
-      if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+      if (!$r) errorHandler(__LINE__);
 
 //Update NumPlayers and playorder in game row
 
@@ -254,17 +256,17 @@ case "host":
   if (!$r) die($db->error . __LINE__);
 
   $r=$db->query("INSERT INTO pict (`GameID`, `NumPlayers`, `Round`, `PlayOrder`) VALUES ('$GameID', '1', '0', '1');");
-  if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+  if (!$r) errorHandler(__LINE__);
 
   // Create new player
   do {
     $s=generateSessionKey();
     $r=$db->query("SELECT * FROM pictPlayers WHERE SessionCookie='$s'");
   } while ($r && $r->num_rows>0);
-  if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+  if (!$r) errorHandler(__LINE__);
 
   $r=$db->query("INSERT INTO pictPlayers (`SessionCookie`, `GameID`, `PlayerNum`, `Ready`, `Name`) VALUES ('$s', '$GameID', '1', '0', '');");
-  if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+  if (!$r) errorHandler(__LINE__);
 
   bake($s);
 
@@ -400,28 +402,28 @@ if ($q=="new"){
       if ($tries>0xFFFFFFFF-998) $tries = 0xFFFFFFFF-998;
       $r=$db->query("SELECT * FROM pict WHERE GameID='$GameID'");
     } while ($r && $r->num_rows>0);
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
 
     $r=$db->query("INSERT INTO pict (`GameID`, `NumPlayers`, `Round`, `PlayOrder`) VALUES ('$GameID', '1', '0', '1');");
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
 
     // set 'NextGame' for all the others
     $r=$db->query("UPDATE `pict` SET `NextGame`='$GameID' WHERE `GameID` = '{$game['GameID']}';");
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
 
    //Set our new GameID and ready = 0
     $r=$db->query("UPDATE `pictPlayers` SET `GameID` = '$GameID',`Ready`='0' WHERE `SessionCookie` = '$s';");
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
 
   } else {
 
     // Check that the new game has not started yet.
     $r=$db->query("SELECT * FROM `pict` WHERE `GameID`='{$game['NextGame']}' && `Round`='0'");
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
 
     if ($r->num_rows!=0) {
       $r=$db->query("UPDATE `pictPlayers` SET `GameID` = '{$game['NextGame']}',`Ready`='0' WHERE `SessionCookie` = '$s';");
-      if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+      if (!$r) errorHandler(__LINE__);
     } else {
       // nothing better to do, might as well kick them back to the homepage
       bake("");
@@ -436,7 +438,7 @@ if ($q=="new"){
 if ($q=="end") {
   if ($game['Round']>0 && $game['Round'] <= 1+$game['NumPlayers']) {
     $db->query("UPDATE `pict` SET `Round`='".(2+$game['NumPlayers'])."' WHERE `GameID`='{$game['GameID']}';")
-      or die('Query Failed ['. $db->error . __LINE__ .']');
+      or errorHandler(__LINE__);
   }
   header("Location: {$fullURL}game");
   die();
@@ -478,10 +480,10 @@ if (isset($_POST['username'])) {
 
     //check name not in use
     $r=$db->query("SELECT * FROM pictPlayers WHERE `GameID`='{$game['GameID']}' AND `Name`='$username'");
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
     if ($r->num_rows ==0) {
       $r=$db->query("UPDATE `pictPlayers` SET `Name` = '$username' WHERE `SessionCookie` = '$s';");
-      if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+      if (!$r) errorHandler(__LINE__);
       $player['Name'] = entitiesIn($_POST['username']);
     } else $userError = "That name is already in use!";
   }
@@ -561,29 +563,29 @@ if ($_GET['poll']) {
   }
   //Prune other players
   $r = $db->query("DELETE FROM `pictPlayers` WHERE `GameID`='{$game['GameID']}' AND UNIX_TIMESTAMP()-UNIX_TIMESTAMP(pollTime) > 30");
-  if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+  if (!$r) errorHandler(__LINE__);
 
 
   if (isset($_GET['wordlist']) && preg_match('/^[0-9]+$/',$_GET['wordlist']) &&$_GET['wordlist']>=0 && $_GET['wordlist']<count($wordLists)) {
     $game['WordList'] = $_GET['wordlist'];
     $r=$db->query("UPDATE `pict` SET `WordList`='{$game['WordList']}' WHERE `GameID`='{$game['GameID']}'");
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
   }
   if (isset($_GET['countdown']) && preg_match('/^[0-9]+$/',$_GET['countdown']) &&$_GET['countdown']>=0 && $_GET['countdown']<count($countdownList)) {
     $game['Countdown'] = $_GET['countdown'];
     $r=$db->query("UPDATE `pict` SET `Countdown`='{$game['Countdown']}' WHERE `GameID`='{$game['GameID']}'");
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
   }
   if (isset($_GET['gamemode']) && preg_match('/^[0-9]+$/',$_GET['gamemode']) &&$_GET['gamemode']>=0 && $_GET['gamemode']<count($gameModeList)) {
     $game['GameMode'] = $_GET['gamemode'];
     $r=$db->query("UPDATE `pict` SET `GameMode`='{$game['GameMode']}' WHERE `GameID`='{$game['GameID']}'");
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
   }
 
   // fetch all players
   // need sessioncookie as it's the primary key
   $r = $db->query("SELECT `SessionCookie`,`Name`,`Ready` FROM `pictPlayers` WHERE `GameID`='{$game['GameID']}'");
-  if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+  if (!$r) errorHandler(__LINE__);
 
   // if everyone ready, move to next phase
 
@@ -611,18 +613,18 @@ if ($_GET['poll']) {
     }
 
     $r=$db->query("INSERT INTO pictPlayers (SessionCookie,PlayerNum, Name) VALUES ".implode(',',$queryV)."ON DUPLICATE KEY UPDATE PlayerNum=VALUES(PlayerNum);");
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
 
     shuffle($playOrder);
 
     $r=$db->query("UPDATE `pict` SET `NumPlayers` = '$numPlayers', `PlayOrder`='".implode(',',$playOrder)."', `Round`=1 WHERE `GameID` = {$game['GameID']};");
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
     // set round=1, this should cause all players to reload
 
 
     // choose initial prompts and populate as round 0 description
     $r=$db->query("SELECT `Description` FROM `pictDesc` WHERE `Round`=0");
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
     $avoid = array();
     while ($row=$r->fetch_row()) $avoid[]=$row[0];
 
@@ -632,7 +634,7 @@ if ($_GET['poll']) {
     for ($i=1;$i<=count($wList);$i++) {$wQuery[]="('{$game['GameID']}','0','$i','".escape(entitiesIn($wList[$i-1]))."')";}
 
     $r=$db->query("INSERT INTO `pictDesc` (`GameID`,`Round`,`Artist`,`Description`) VALUES ".implode(',',$wQuery));
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
 
 
     die('{"reload":1}');
@@ -777,7 +779,7 @@ if ($game['Round'] > 1+$game['NumPlayers']) {
 
     //show story
     $r=$db->query("SELECT * FROM `pictDesc` WHERE `GameID`='{$game['GameID']}' ORDER BY `Round` ASC");
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
 
     $pad = (isset($_GET['show']) && preg_match('/^[0-9]+$/',$_GET['show']) && $_GET['show']>0 && $_GET['show']<=$game['NumPlayers'])?$_GET['show']
           : 1;
@@ -865,7 +867,7 @@ if ($_GET['upload']) {
   $r=$db->query("INSERT IGNORE INTO `pictDesc` (`GameID`,`Round`,`Artist`,`ArtistName`,`Description`) VALUES ('{$game['GameID']}', '{$game['Round']}', '{$player['PlayerNum']}', '"
                 .escape($player['Name'])."', '{$fname}')");
 
-  if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+  if (!$r) errorHandler(__LINE__);
 
 
   echo '{"uploaded":'.strlen($img).'}';
@@ -879,7 +881,7 @@ if ($_GET['wait']=='upload') {
   //retrieve list of players who've not yet uploaded this round
 
   $r=$db->query("SELECT `ArtistName` FROM `pictDesc` WHERE `GameID`='{$game['GameID']}' AND `Round`='{$game['Round']}'");
-  if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+  if (!$r) errorHandler(__LINE__);
 
   $pUploaded = array();
   while ($row = $r->fetch_row()) {
@@ -887,7 +889,7 @@ if ($_GET['wait']=='upload') {
   }
 
   $r=$db->query("SELECT `Name` FROM `pictPlayers` WHERE `GameID`='{$game['GameID']}'");
-  if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+  if (!$r) errorHandler(__LINE__);
 
   $waiting = array();
   while ($row = $r->fetch_row()) {
@@ -901,7 +903,7 @@ if ($_GET['wait']=='upload') {
     $game['Round']++;
 
     $r=$db->query("UPDATE `pict` SET `Round`='{$game['Round']}' WHERE `GameID` = {$game['GameID']};");
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
 
     die('{"reload":1}');
 
@@ -917,7 +919,7 @@ if ($_GET['wait']=='upload') {
 // load prompt, from round-1
   $prev = prevPlayer($player['PlayerNum'], $game['PlayOrder']);
   $r=$db->query("SELECT `Description` FROM `pictDesc` WHERE `GameID`='{$game['GameID']}' AND `Round`='".($game['Round']-1)."' AND `Artist`='$prev'");
-  if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+  if (!$r) errorHandler(__LINE__);
 
 
   $prompt = $r->fetch_assoc()["Description"];
@@ -952,7 +954,7 @@ if ($_GET['wait']=='upload') {
     $r=$db->query("INSERT IGNORE INTO `pictDesc` (`GameID`,`Round`,`Artist`,`ArtistName`,`Description`) "
                  ."VALUES ('{$game['GameID']}', '{$game['Round']}', '{$player['PlayerNum']}', '$name', '$desc')");
 
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
 
     die('{"description":'.strlen($_GET['description']).'}');
 
@@ -964,7 +966,7 @@ if ($_GET['wait']=='upload') {
     //retrieve list of players who've not yet uploaded this round
 
     $r=$db->query("SELECT `ArtistName` FROM `pictDesc` WHERE `GameID`='{$game['GameID']}' AND `Round`='{$game['Round']}'");
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
 
     $pUploaded = array();
     while ($row = $r->fetch_row()) {
@@ -972,7 +974,7 @@ if ($_GET['wait']=='upload') {
     }
 
     $r=$db->query("SELECT `Name` FROM `pictPlayers` WHERE `GameID`='{$game['GameID']}'");
-    if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+    if (!$r) errorHandler(__LINE__);
 
     $waiting = array();
     while ($row = $r->fetch_row()) {
@@ -987,7 +989,7 @@ if ($_GET['wait']=='upload') {
       // check if game over ? no, that comes after the reload
 
       $r=$db->query("UPDATE `pict` SET `Round`='{$game['Round']}' WHERE `GameID` = {$game['GameID']};");
-      if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+      if (!$r) errorHandler(__LINE__);
 
       die('{"reload":1}');
 
@@ -1001,7 +1003,7 @@ if ($_GET['wait']=='upload') {
   //display image
   $prev = prevPlayer($player['PlayerNum'], $game['PlayOrder']);
   $r=$db->query("SELECT `Description` FROM `pictDesc` WHERE `GameID`='{$game['GameID']}' AND `Round`='".($game['Round']-1)."' AND `Artist`='$prev'");
-  if (!$r) die('Query Failed ['. $db->error . __LINE__ .']');
+  if (!$r) errorHandler(__LINE__);
 
   $img = $URL.'img/'.$r->fetch_row()[0];
 
@@ -1139,5 +1141,12 @@ function e404(){
 }
 function bake($s){
   setcookie("pict", $s, 0, "/", '.'.$_SERVER['HTTP_HOST'], !getenv('PICT_NO_SSL'), TRUE);
+}
+function errorHandler($line){
+  global $db, $showErrors;
+  if ($showErrors) {
+    echo "[ $line ] " . $db->error ."<br>";
+  }
+  die("Query Failed");
 }
 ?>
