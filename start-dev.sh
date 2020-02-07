@@ -3,7 +3,7 @@
 [[ -d src ]] || git worktree add src redo
 
 # Config to match container db's default credentials
-cp container/db.php src/db.php
+cp container/_db.php src/_db.php
 
 # Script to help remember the docker compose command from within src/
 cat > src/dev <<-EOFDEV

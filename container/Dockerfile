@@ -4,4 +4,4 @@ ADD ./container/sql-mode.cnf /etc/mysql/mysql.conf.d/sql-mode.cnf
 ADD ./container/pict.sql /pict.sql
 ADD ./container/create_mysql_users.sh /create_mysql_users.sh
 ADD ./src /app
-ADD ./container/db.php /app/db.php
+ADD ./container/_db.php /app/_db.php
