@@ -684,7 +684,7 @@ new QRCode(document.getElementById("qrcode"), {text:"<?=$fullURL.$game['GameID']
 </script>
 
 <div>
-Send this link to everyone you want to join: <a href=<?=$fullURL.$game['GameID'] ?>><?= $fullURL.$game['GameID'] ?></a>
+Send this link to everyone you want to join: <a href=<?=$fullURL.$game['GameID'] ?>><?= str_replace('https://','',$fullURL).$game['GameID'] ?></a>
 </div><p>
 
 
