@@ -5,9 +5,10 @@ services:
     ports:
       - 80:80
 
-    # Disable SSL for local usage
     environment:
+      # Disable SSL for local usage
       PICT_NO_SSL: yes_please_no_ssl_thanks
+      JS_POLL_TIME: 1000
 
     # Mount local source directory into image, to be able to work on it live.
     volumes:
