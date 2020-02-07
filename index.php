@@ -55,7 +55,7 @@ if ($DB_UTF8MB4_SUPPORT){
 
 $q = explode('?',explode($URL,$_SERVER['REQUEST_URI'])[1])[0];
 
-require('db.php');
+require('_db.php');
 
 /*
 pict/join

@@ -1,5 +1,5 @@
 # Configuration file
-db.php
+_db.php
 
 # Default storage location for submitted drawings
 img/*.png
