@@ -7,6 +7,9 @@ $fullURL = $httproto.'://'.$_SERVER['HTTP_HOST'].$URL;
 
 $showErrors = false;
 
+$imgPath = dirname($_SERVER['SCRIPT_FILENAME']).'/img/';
+if (!is_writeable($imgPath)) die("img dir permissions error");
+
 $max_players = 88; // VARCHAR(255) for player order implies maximum of 88
 
 $HTMLheaderCode='<!doctype html><html><head>
@@ -863,15 +866,13 @@ if ($_GET['wait']=='description') die('{"reload":1}');
 
 if ($_GET['upload']) {
 
-  $path = dirname($_SERVER['SCRIPT_FILENAME']).'/img/';
   $fname = "G{$game['GameID']}_{$game['Round']}_{$player['PlayerNum']}.png";
 
-
   $img = file_get_contents("php://input");
-  file_put_contents( $path.$fname,  $img);
+  file_put_contents( $imgPath.$fname,  $img);
 
-  if (exif_imagetype($path.$fname)!=IMAGETYPE_PNG) {
-    unlink($path.$fname);
+  if (exif_imagetype($imgPath.$fname)!=IMAGETYPE_PNG) {
+    unlink($imgPath.$fname);
     die('{"uploaded":-1}');
   }
 
@@ -880,11 +881,7 @@ if ($_GET['upload']) {
 
   if (!$r) errorHandler(__LINE__);
 
-
-  echo '{"uploaded":'.strlen($img).'}';
-
-  die();
-
+  die('{"uploaded":'.strlen($img).'}');
 }
 
 if ($_GET['wait']=='upload') {
