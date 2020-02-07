@@ -1,7 +1,9 @@
 <?
+$httproto = getenv('PICT_NO_SSL') ? 'http' : 'https';
+
 $URL = dirname($_SERVER['SCRIPT_NAME']).'/';
 if ($URL == '//') $URL = '/';
-$fullURL = 'http://'.$_SERVER['HTTP_HOST'].$URL;
+$fullURL = $httproto.'://'.$_SERVER['HTTP_HOST'].$URL;
 
 $showErrors = false;
 
