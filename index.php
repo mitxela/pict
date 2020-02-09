@@ -8,7 +8,6 @@ $fullURL = $httproto.'://'.$_SERVER['HTTP_HOST'].$URL;
 $showErrors = false;
 
 $imgPath = dirname($_SERVER['SCRIPT_FILENAME']).'/img/';
-if (!is_writeable($imgPath)) die("img dir permissions error");
 
 $max_players = 88; // VARCHAR(255) for player order implies maximum of 88
 
@@ -43,7 +42,8 @@ $gameModeList = array(
 $bannedAgents = array(
   "WhatsApp",
   "facebookexternalhit",
-  "Twitterbot"
+  "Twitterbot",
+  "TelegramBot"
 );
 
 $jsPollTime = getenv('JS_POLL_TIME') ?: 3000;
@@ -259,6 +259,8 @@ h1 {letter-spacing:2px; animation: fadeIn  3s; font-family: sans-serif;}
 break;
 
 case "host":
+
+  if (!is_writeable($imgPath)) die("img dir permissions error");
 
   // create fresh game row, id
   $tries = 1;
