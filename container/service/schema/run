@@ -1,0 +1,15 @@
+#!/bin/sh
+
+mkdir -p /opt/app/img
+chown nobody /opt/app/img
+
+while ! (echo 'create database pict;' | mysql -u root); do
+	sleep 1
+	>&2 echo trying to create database
+done
+while ! (mysql -u root pict < /opt/pict.sql); do
+	sleep 1
+	>&2 echo trying to populate schema
+done
+
+>&2 echo SCHEMA is GOOD

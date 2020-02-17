@@ -14,4 +14,4 @@ services:
     volumes:
      - type: bind
        source: ../src
-       target: /app
+       target: /opt/app

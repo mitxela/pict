@@ -1,0 +1,2 @@
+#!/bin/execlineb
+exit 125  # run once only

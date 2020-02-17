@@ -1,0 +1,2 @@
+#!/bin/execlineb
+cd /opt/data /usr/bin/mysqld_safe --datadir=/opt/data
