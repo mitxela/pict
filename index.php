@@ -112,7 +112,7 @@ pict/test - play with interface
 
 */
 
-$s = $_COOKIE['pict'];
+$s = @$_COOKIE['pict'];
 $player = false;
 $game = false;
 
@@ -142,7 +142,7 @@ if (str_replace($bannedAgents, '', $_SERVER['HTTP_USER_AGENT']) !== $_SERVER['HT
 
 if (!$game) {
 
-if ($_GET['poll']) die('{"reload":1}');
+if (@$_GET['poll']) die('{"reload":1}');
 
 
 
@@ -865,9 +865,9 @@ b{display:block;font-size:x-large}
 
 if (1*$game['Round'] % 2) {//Odd - enter drawing phase
 
-if ($_GET['wait']=='description') die('{"reload":1}');
+if (@$_GET['wait']=='description') die('{"reload":1}');
 
-if ($_GET['upload']) {
+if (@$_GET['upload']) {
 
   $fname = "G{$game['GameID']}_{$game['Round']}_{$player['PlayerNum']}.png";
 
