@@ -1,0 +1,2 @@
+#!/bin/execlineb
+ucspilogd -D db-setup SVC
