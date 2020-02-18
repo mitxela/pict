@@ -6,9 +6,6 @@ RUN apk update &&  \
         mariadb mysql-client &&  \
     rm -rf /var/cache/apk/*
 
-RUN mkdir -p /opt/data &&  \
-    mysql_install_db --user=mysql --datadir=/opt/data --auth-root-authentication-method=normal
-
 ADD ./container/pict.sql /opt/pict.sql
 
 RUN sed -i 's/.*short_open_tag.*/short_open_tag = On/' /etc/php7/php.ini &&  \
