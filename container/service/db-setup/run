@@ -2,8 +2,9 @@
 
 [ -d /opt/data ] || (
 	>&2 echo installing mysql data directory...
-	mkdir -p /opt/data
-	mysql_install_db --user=mysql --datadir=/opt/data --auth-root-authentication-method=normal
+	mkdir -p /opt/data_create
+	mysql_install_db --user=mysql --datadir=/opt/data_create --auth-root-authentication-method=normal
+	mv /opt/data_create /opt/data
 )
 
 mkdir -p /opt/app/img
