@@ -1,2 +1,2 @@
 #!/bin/execlineb
-nginx -c /opt/nginx.conf
+fdmove -c 2 1 nginx -c /opt/nginx.conf

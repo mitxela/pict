@@ -1,2 +1,2 @@
 #!/bin/execlineb
-php-fpm7 -F -O
+fdmove -c 2 1 php-fpm7 -F -O

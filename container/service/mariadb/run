@@ -1,2 +1,2 @@
 #!/bin/execlineb
-cd /opt/data /usr/bin/mysqld_safe --datadir=/opt/data
+fdmove -c 2 1 cd /opt/data /usr/bin/mysqld_safe --datadir=/opt/data
