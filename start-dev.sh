@@ -13,4 +13,4 @@ EOFDEV
 chmod +x src/dev
 
 # Start the thing
-src/dev up -d || (echo 'trying with sudo...' && sudo src/dev up -d)
+src/dev up -d
