@@ -12,13 +12,16 @@ exec 2>&1
 mkdir -p /opt/app/img
 chown nobody /opt/app/img
 
-while ! (echo 'create database pict;' | mysql -u root); do
+while : ; do
+	>&2 echo waiting for mysql to come up...
+	(echo 'select '\'mysql is up\' situation';' | mysql -u root) && break
 	sleep 1
-	>&2 echo trying to create database
 done
-while ! (mysql -u root pict < /opt/pict.sql); do
-	sleep 1
-	>&2 echo trying to populate schema
-done
+
+>&2 echo trying to create database...
+echo 'create database pict;' | mysql -u root
+
+>&2 echo trying to populate schema...
+(mysql -u root pict < /opt/pict.sql) && break
 
 >&2 echo SCHEMA is GOOD
