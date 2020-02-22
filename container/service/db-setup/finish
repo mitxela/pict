@@ -1,2 +1,2 @@
 #!/bin/execlineb
-exit 125  # run once only
+exit 125  # We only intended to run once; don't restart us

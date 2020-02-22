@@ -1,2 +1,4 @@
 #!/bin/execlineb
-fdmove -c 2 1 cd /opt/data /usr/bin/mysqld_safe --datadir=/opt/data
+fdmove -c 2 1  # stderr to stdout so everything is logged neatly
+cd /opt/data  # try and go here; if it doesn't exist yet we will fail and then get restarted later
+/usr/bin/mysqld_safe --datadir=/opt/data

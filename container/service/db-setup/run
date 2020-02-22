@@ -1,6 +1,8 @@
 #!/bin/sh
 
-exec 2>&1
+exec 2>&1  # stderr to stdout so everything is logged neatly
+
+# Do this so that mariadb can start
 
 [ -d /opt/data ] || (
 	>&2 echo installing mysql data directory...
@@ -9,14 +11,20 @@ exec 2>&1
 	mv /opt/data_create /opt/data
 )
 
+# Make this directory for where the PHP wants to store images by default
+
 mkdir -p /opt/app/img
 chown nobody /opt/app/img
+
+# Wait until mariadb has successfully picked up our /opt/data and started
 
 while : ; do
 	>&2 echo waiting for mysql to come up...
 	(echo 'select '\'mysql is up\' situation';' | mysql -u root) && break
 	sleep 1
 done
+
+# Set up our database and tables so that the PHP code can work
 
 >&2 echo trying to create database...
 echo 'create database pict;' | mysql -u root

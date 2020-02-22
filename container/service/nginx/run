@@ -1,2 +1,3 @@
 #!/bin/execlineb
-fdmove -c 2 1 nginx -c /opt/nginx.conf
+fdmove -c 2 1  # stderr to stdout so it is logged neatly
+nginx -c /opt/nginx.conf
