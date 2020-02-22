@@ -1,4 +1,4 @@
-<?
+<?php
 $httproto = getenv('PICT_NO_SSL') ? 'http' : 'https';
 
 $URL = dirname($_SERVER['SCRIPT_NAME']).'/';
@@ -193,7 +193,7 @@ echo $HTMLheaderCode;
 Unknown game ID. <p>
 <a href=<?=$URL ?>join>Join game</a><p>
 <a href=<?=$URL ?>>Home</a><p>
-</body></html><?
+</body></html><?php
 */
 
 
@@ -255,7 +255,7 @@ h1 {letter-spacing:2px; animation: fadeIn  3s; font-family: sans-serif;}
 <a href=https://mitxela.com/>mitxela.com</a>
 
 </body></html>
-<?
+<?php
 break;
 
 case "host":
@@ -326,7 +326,7 @@ input[type=text]:focus{box-shadow:0 0 5px orange;background:#fff;}
 </head><body>
 
 <form onsubmit='joinGame();return false;'>
-<? if ($joinWarning) echo "<p style='color:red'>$joinWarning</p>";?>
+<?php if ($joinWarning) echo "<p style='color:red'>$joinWarning</p>"; ?>
 Enter the ID of the game you want to join:<p>
 <input type=text autofocus>
 <input type=submit value=Go>
@@ -340,7 +340,7 @@ function joinGame(){
 }
 </script>
 </body></html>
-<?
+<?php
 break;
 
 
@@ -477,7 +477,7 @@ You are currently partaking in game [<?=$game['GameID']?>]. <p>
 <a href=<?=$URL ?>game>Resume game</a><p>
 <a href=<?=$URL ?>quit>Exit</a><p>
 </div>
-</body></html><?
+</body></html><?php
 die();
 
 }
@@ -542,7 +542,7 @@ h3{font-family:sans-serif;}
 Enter your name: <input name=username type=text autofocus><input type=submit value=Go>
 </form><p>
 <?=$userError ?>
-</body></html><?
+</body></html><?php
   die();
 }
 
@@ -700,17 +700,17 @@ Send this link to everyone you want to join: <a href=<?=$fullURL.$game['GameID']
 <fieldset>
 <legend>Options</legend>
 Countdown:
-<select id=countdown onchange='request(this);'><?
+<select id=countdown onchange='request(this);'><?php
   $i=0; foreach ($countdownList as $v) echo "<option value=".($i++).">$v</option>";
 ?></select>
 
 <p>Game mode:
-<select id=gamemode onchange='request(this);'><?
+<select id=gamemode onchange='request(this);'><?php
   $i=0; foreach ($gameModeList as $v) echo "<option value=".($i++).">$v</option>";
 ?></select>
 
 <p>Word List:
-<select id=wordlist onchange='request(this);'><?
+<select id=wordlist onchange='request(this);'><?php
   $i=0; foreach ($wordLists as $v) echo "<option value=".($i++).">$v</option>";
 ?></select>
 
@@ -766,7 +766,7 @@ window.setInterval(poll, <?=$jsPollTime ?>);
 
 </script>
 
-</body></html><?
+</body></html><?php
 
 
 
@@ -821,7 +821,7 @@ if ($game['Round'] > 1+$game['NumPlayers']) {
 <style>
 body{text-align:center;margin:0;background:	hsl(<?=$hue?>, 100%, 86%)}
 img{
-<?
+<?php
 if ($game['GameMode']!='1') echo
 "  background:url(tex_squares.jpg);
   box-shadow:5px 5px 10px #888, inset 0 0 50px #ccc;";
@@ -835,7 +835,7 @@ div{padding:10px;margin:10px 0px;background:hsl(<?=$hue?>, 84%, 76%)}
 b{display:block;font-size:x-large}
 </style></head><body><h1>Results</h1>
 
-<div>Initial prompt: <b><?=$rounds[0][1]?></b></div><?
+<div>Initial prompt: <b><?=$rounds[0][1]?></b></div><?php
 
     for ($i=1;$i<count($rounds);$i++) {
       if ($i%2) { //odd
@@ -1032,7 +1032,7 @@ Describe what you see:
 
 </div>
 
-<p><img style='<?
+<p><img style='<?php
 if ($game['GameMode']!='1') echo "background:url(tex_squares.jpg);box-shadow:5px 5px 10px #888, inset 0 0 50px #ccc;";
 ?>max-width:100%;max-height:100vh;' src=<?=$img ?>>
 
@@ -1076,7 +1076,7 @@ function poll(){
 </script>
 
 </body></html>
-<?
+<?php
 
 
 
