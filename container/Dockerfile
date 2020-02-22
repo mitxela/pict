@@ -8,7 +8,6 @@ RUN apk update &&  \
 
 RUN sed -i 's/.*short_open_tag.*/short_open_tag = On/' /etc/php7/php.ini
 ADD ./container/env.conf /etc/php7/php-fpm.d/env.conf
-
 ADD ./container/pict.sql /opt/pict.sql
 
 ENTRYPOINT ["s6-svscan", "/opt/service"]
