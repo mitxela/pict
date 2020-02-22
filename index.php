@@ -1151,7 +1151,7 @@ function e404(){
   die();
 }
 function bake($s){
-  setcookie("pict", $s, 0, "/", '.'.$_SERVER['HTTP_HOST'], !getenv('PICT_NO_SSL'), TRUE);
+  setcookie("pict", $s, 0, "/", null, !getenv('PICT_NO_SSL'), TRUE);
 }
 function errorHandler($line){
   global $db, $showErrors;
