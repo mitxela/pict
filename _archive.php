@@ -1,4 +1,4 @@
-<?php
+<?
 if (!isset($URL)) {
   die();
 }
@@ -44,7 +44,7 @@ echo $HTMLheaderCode;?>
 <style>
 body{text-align:center;margin:0;background:	hsl(<?=$hue?>, 100%, 86%)}
 img{
-<?php
+<?
 if ($game['GameMode']!='1') echo
 "  background:url(../tex_squares.jpg);
   box-shadow:5px 5px 10px #888, inset 0 0 50px #ccc;";
@@ -58,7 +58,7 @@ div{padding:10px;margin:10px 0px;background:hsl(<?=$hue?>, 84%, 76%)}
 b{display:block;font-size:x-large}
 </style></head><body><h1><?=$game['GameID']." / ".entitiesOut($allNames[$pad]) ?></h1>
 
-<div>Initial prompt: <b><?=$rounds[0][1]?></b></div><?php
+<div>Initial prompt: <b><?=$rounds[0][1]?></b></div><?
 
     for ($i=1;$i<count($rounds);$i++) {
       if ($i%2) { //odd
@@ -114,7 +114,7 @@ echo $HTMLheaderCode;
 </style>
 </head><body>
 <pre>
-<?php
+<?
 
 
 while ($row=$r->fetch_assoc()) {
@@ -128,7 +128,7 @@ while ($row=$r->fetch_assoc()) {
 
 </body>
 </html>
-<?php
+<?
 
 } else e404();
 

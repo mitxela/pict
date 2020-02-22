@@ -1,4 +1,4 @@
-<?php
+<?
 if (!isset($URL)) {
   die();
 }
@@ -189,7 +189,7 @@ function poll(){
 }
 
 
-<?php if ($straightToPoll) echo "poll();window.setInterval(poll, 3000);"; else  {?>
+<? if ($straightToPoll) echo "poll();window.setInterval(poll, 3000);"; else  {?>
 
 startCountdown=<?=$startCountdown ?>;
 mainCountdown=<?= $countdownSec[$game['Countdown']] ?>;
@@ -221,7 +221,7 @@ mainCountdown=<?= $countdownSec[$game['Countdown']] ?>;
   }
 })();
 
-<?php } ?>
+<?}?>
 </script>
 </body>
 </html>
