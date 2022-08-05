@@ -1148,7 +1148,12 @@ function isSessionKey($k) {
 }
 
 function e404(){
-  header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
+  if (file_exists('/home/public/mitxela.com/error.php')) {
+    $_SERVER['QUERY_STRING']='404';
+    require('/home/public/mitxela.com/error.php');
+  } else {
+    header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
+  }
   die();
 }
 function bake($s){
