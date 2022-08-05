@@ -24,12 +24,14 @@ $wordLists = array("wordList.txt"=>"Pictionary", "nounsList.txt"=>"Tricky Nouns"
 
 $countdownList = array(
   "30 Seconds",
+  "45 Seconds",
   "1 Minute",
   "2 Minutes",
   "Unlimited"
 );
 $countdownSec = array(
   30,
+  45,
   60,
   120,
   -1
