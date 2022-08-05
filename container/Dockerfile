@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.12.8
 
 RUN apk update &&  \
     apk add s6 nginx  \
