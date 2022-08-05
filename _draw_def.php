@@ -93,7 +93,7 @@ c.oncontextmenu=function(){return false;}
 
 s.onmousedown=function(e){e.stopPropagation()};
 
-['black','red','blue','green','yellow',0].forEach(function(i){
+['black','red','blue','green','yellow','#732b00',0].forEach(function(i){
   var d = document.createElement('button');
   d.innerHTML='&nbsp;&nbsp;'
   if (i)d.style.backgroundColor=i;
