@@ -1148,6 +1148,7 @@ function isSessionKey($k) {
 }
 
 function e404(){
+  header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
   die();
 }
 function bake($s){
