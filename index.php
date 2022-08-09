@@ -45,6 +45,7 @@ $bannedAgents = array(
   "WhatsApp",
   "facebookexternalhit",
   "Twitterbot",
+  "Discordbot",
   "TelegramBot"
 );
 
