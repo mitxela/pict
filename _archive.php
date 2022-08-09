@@ -113,9 +113,12 @@ echo $HTMLheaderCode;
 
 </style>
 </head><body>
-<pre>
 <?
 
+if ($_GET['sort'] == 'date') echo "<a href=?sort=players>Sort by Players</a>";
+else echo "<a href=?sort=date>Sort by Date</a>";
+
+echo "<pre>";
 
 while ($row=$r->fetch_assoc()) {
   echo "\n {$row['GameID']}\t{$row['startTime']} {$row['NumPlayers']}\t";
