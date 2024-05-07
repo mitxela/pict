@@ -329,7 +329,7 @@ input[type=text]:focus{box-shadow:0 0 5px orange;background:#fff;}
 </head><body>
 
 <form onsubmit='joinGame();return false;'>
-<? if ($joinWarning) echo "<p style='color:red'>$joinWarning</p>";?>
+<? if (isset($joinWarning)) echo "<p style='color:red'>$joinWarning</p>";?>
 Enter the ID of the game you want to join:<p>
 <input type=text autofocus>
 <input type=submit value=Go>
@@ -492,6 +492,7 @@ die();
 
 if ($player['Name']=="") {
 
+$userError="";
 if (isset($_POST['username'])) {
 
   if (!preg_match('/[!-~]/',$_POST['username'])) $userError="Please use at least one printable ascii character!";
@@ -561,7 +562,7 @@ if ($game['Round'] ==0) {
 // game?ready=0&poll=1539873405
 
 
-if ($_GET['poll']) {
+if (isset($_GET['poll'])) {
 
   //update ready line in players table
   if (!isset($_GET['ready']) || !($_GET['ready']==='0' || $_GET['ready']==='1')) die();
@@ -793,7 +794,7 @@ if (isset($_GET['ready'])) die('{"reload":1}');
 //    if round== last -> pads are back in original players' hands
 if ($game['Round'] > 1+$game['NumPlayers']) {
     // if get poll (or wait?), die reload
-    if($_GET['poll'] || $_GET['wait']) die('{"reload":1}');
+    if(isset($_GET['poll']) || isset($_GET['wait'])) die('{"reload":1}');
 
     // No waiting on story page, 'play again' link leads to round zero
 
@@ -890,7 +891,7 @@ if (@$_GET['upload']) {
   die('{"uploaded":'.strlen($img).'}');
 }
 
-if ($_GET['wait']=='upload') {
+if (@$_GET['wait']=='upload') {
 
   //retrieve list of players who've not yet uploaded this round
 
@@ -941,7 +942,7 @@ if ($_GET['wait']=='upload') {
 
 
 
-
+  $straightToPoll = false;
 // Check if already uploaded image, go straight to wait routine (in case page was refreshed after upload)
   $r=$db->query("SELECT * FROM `pictDesc` WHERE `GameID`='{$game['GameID']}' AND `Round`='{$game['Round']}' AND `Artist`='{$player['PlayerNum']}'");
   if ($r && $r->num_rows>0) $straightToPoll=true;
@@ -957,10 +958,10 @@ if ($_GET['wait']=='upload') {
 } else { //Even - enter guessing phase
 
   //For players still on upload waiting screen
-  if ($_GET['wait']=='upload') die('{"reload":1}');
+  if (@$_GET['wait']=='upload') die('{"reload":1}');
 
 
-  if ($_GET['description']) {
+  if (isset($_GET['description']) && $_GET['description']) {
 
     $name = escape($player['Name']);
     $desc = escape(entitiesIn($_GET['description']));
@@ -974,7 +975,7 @@ if ($_GET['wait']=='upload') {
 
   }
 
-  if ($_GET['wait']=='description') {
+  if (@$_GET['wait']=='description') {
 
     //Identical to upload wait screen
     //retrieve list of players who've not yet uploaded this round
