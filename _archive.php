@@ -79,7 +79,7 @@ b{display:block;font-size:x-large}
 
 } else if (count($q)==1) { // Archive index
 
-
+if (!isset($_GET['sort'])) $_GET['sort']="";
 /*
  list all games where round > 1+NumPlayers
 
@@ -116,7 +116,7 @@ echo $HTMLheaderCode;
 <?
 
 if ($_GET['sort'] == 'date') echo "<a href=?sort=players>Sort by Players</a>";
-else echo "<a href=?sort=date>Sort by Date</a>";
+else echo "<a href='?sort=date'>Sort by Date</a>";
 
 echo "<pre>";
 
